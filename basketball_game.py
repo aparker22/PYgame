@@ -1,28 +1,36 @@
 import pygame
 
+
 class Ball(object):
-    def __init__(self, color, x, y):
-        self.color = color
+    def __init__(self, x, y):
+        self.image = pygame.image.load('basketball.png').convert_alpha()
+        self.image = pygame.transform.scale(self.image, (100, 100))
         self.x = x
         self.y = y
         self.speed_x = 5
         self.speed_y = 5
-        self.radius = 50
+        self.radius = 0
+        self.radiusx = 0
+        self.radiusy = 100
 
     def update(self, width, height):
         self.x += self.speed_x
         self.y += self.speed_y
-        if self.x + self.radius > width:
+        if self.x + self.radiusx > width:
             self.speed_x = 0
-        if self.y + self.radius > height:
+        if self.y + self.radiusx > height:
+            self.speed_y = 0        
+        if self.x + self.radiusy > width:
+            self.speed_x = 0
+        if self.y + self.radiusy > height:
             self.speed_y = 0
-        if self.x - self.radius < 0:
+        if self.x - self.radius <= 0:
             self.speed_x = 0
-        if self.y - self.radius < 0:
+        if self.y - self.radius <= 0:
             self.speed_y = 0
 
     def render(self, screen):
-        pygame.draw.circle(screen, (self.color), (self.x, self.y), self.radius)
+        screen.blit(self.image, (self.x, self.y))
 
         
 
@@ -36,7 +44,7 @@ def main():
     pygame.display.set_caption('Basketball game')
 
     # Game initialization
-    ball = Ball((250, 131, 32), 250, 250)
+    basketball = Ball((width / 2), (height / 2))
     goal_image = pygame.image.load('goal.png').convert_alpha()
     goal_image = pygame.transform.scale(goal_image, (200, 200))
 
@@ -48,17 +56,17 @@ def main():
             # activate the cooresponding speeds
             # when an arrow key is pressed down
             if pressed[pygame.K_UP]:
-                ball.y -= 5
-                ball.speed_y = -5
+                basketball.y -= 5
+                basketball.speed_y = -5
             elif pressed[pygame.K_DOWN]:
-                ball.y += 5
-                ball.speed_y = 5
+                basketball.y += 5
+                basketball.speed_y = 5
             elif pressed[pygame.K_LEFT]:
-                ball.x -= 5
-                ball.speed_x = -5
+                basketball.x -= 5
+                basketball.speed_x = -5
             elif pressed[pygame.K_RIGHT]:
-                ball.x += 5
-                ball.speed_x = 5
+                basketball.x += 5
+                basketball.speed_x = 5
         # if event.type == pygame.KEYUP:
         #     # deactivate the cooresponding speeds
         #     # when an arrow key is released
@@ -74,17 +82,18 @@ def main():
                 stop_game = True
 
         # Game logic
-        ball.update(width, height)
+        basketball.update(width, height)
 
         # Draw background
         screen.fill(blue_color)
 
         # Game display
-        ball.render(screen)
+        
         font = pygame.font.Font(None, 25)
         text = font.render('Use arrow keys to move the ball to the goal', True, (0, 0, 0))
-        screen.blit(text, (80, 230))
+        screen.blit(text, (430, 630))
         screen.blit(goal_image, (500, 50))
+        basketball.render(screen)
 
         pygame.display.update()
 
