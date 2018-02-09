@@ -85,12 +85,6 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Basketball game')
-
-##This doesn't work right yet - this adds more bad guys
-    # badtimer=100
-    # badtimer1=0
-    # badguys=[[640,100]]
-    # healthvalue=194
     
     # Add Variables
     bananas = Banana()
@@ -99,11 +93,6 @@ def main():
     court = pygame.transform.scale(court, (1200, 700))
     basketball = Ball(50, 50)
     goal = Goal(487, 0)
-
-    # #This doesn't work right yest
-    # badguyimg1 = pygame.image.load("bad_guy2.gif")
-    # badguyimg1 = pygame.transform.scale(badguyimg1, (100, 100))
-    # badguyimg=badguyimg1
 
     # #These might be my bad guys
     # badguy1 = Baddie(200, 200, 'bad_guy.png')
@@ -117,14 +106,9 @@ def main():
 
     #main game logic
     while not stop_game:
-        
-        ####use this with the bad guys
-        # badtimer -= 1     
+     
         for event in pygame.event.get():
             pressed = pygame.key.get_pressed()
-            # activate the cooresponding speeds
-            # when an arrow key is pressed down
-
             if pressed[pygame.K_UP]:
                 basketball.y -= 5
                 basketball.speed_y = -5
@@ -144,21 +128,7 @@ def main():
             #     banana_group.update()
             #     banana_group.draw(screen)
             #     pygame.display.flip()
-        # if badtimer== 0:
-        #     badguys.append([640, random.randint(50,430)])
-        #     badtimer=100-(badtimer1*2)
-        #     if badtimer1>=35:
-        #         badtimer1=35
-        #     else:
-        #         badtimer1+=5
-        # index=0
-        # for badguy in badguys:
-        #     if badguy[0]<-64:
-        #         badguys.pop(index)
-        #     badguy[0]-=7
-        #     index+=1
-        # for badguy in badguys:
-        #     screen.blit(badguyimg, badguy)
+    
     # Updating
             basketball.update(width, height)
             screen.blit(court, (0,0))
@@ -167,12 +137,7 @@ def main():
             screen.blit(text, (430, 630))
             goal.render(screen)
             basketball.render(screen)
-
-            
-
-
-
-        
+ 
         #This is how I render my bad guys:
         # for i in badlist:
         #     i.render(screen)
